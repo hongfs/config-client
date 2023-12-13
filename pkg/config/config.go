@@ -24,14 +24,29 @@ func (c *Config) String() string {
 	return c.Value
 }
 
+func (c *Config) Bytes() []byte {
+	return []byte(c.Value)
+}
+
 func (c *Config) Int() int {
+	return int(c.Int64())
+}
+
+func (c *Config) Int64() int64 {
 	value, _ := strconv.ParseInt(c.Value, 10, 64)
 
-	return int(value)
+	return value
+}
+
+func (c *Config) Uint64() uint64 {
+	return uint64(c.Int64())
 }
 
 func (c *Config) Bool() bool {
-	return c.Value == "1" || c.Value == "true"
+	return slice.Contain(
+		[]string{"1", "true", "yes"},
+		c.Value,
+	)
 }
 
 func (c *Config) Array() []string {
